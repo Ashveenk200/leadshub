@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel - LeadsHub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .login-container input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .login-container button {
+      background: #4A00E0;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .admin-panel {
+      padding: 30px;
+    }
+
+    .logout-btn {
+      float: right;
+      background: crimson;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .upload-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .upload-form input, .upload-form textarea {
+      flex: 1 1 200px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .upload-form button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .file-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .file-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      position: relative;
+    }
+
+    .file-card h3 {
+      margin: 0;
+    }
+
+    .file-card p {
+      margin: 5px 0;
+      overflow-wrap: break-word;
+      max-height: 100px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #ccc transparent;
+    }
+
+    .file-card p::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .file-card p::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 10px;
+    }
+
+    .file-card button {
+      margin: 5px 5px 5px 0;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .edit-btn {
+      background: orange;
+      color: white;
+    }
+
+    .delete-btn {
+      background: red;
+      color: white;
+    }
+
+    .download-btn {
+      background: green;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Section -->
+  <div class="login-container" id="loginBox">
+    <h2>Admin Login</h2>
+    <input type="text" id="adminID" placeholder="Login ID" required>
+    <input type="password" id="adminPassword" placeholder="Password" required>
+    <button onclick="validateLogin()">Login</button>
+  </div>
+
+  <!-- Admin Panel -->
+  <div class="admin-panel hidden" id="adminPanel">
+    <h2>Welcome, Admin <button class="logout-btn" onclick="logout()">Logout</button></h2>
+
+    <form id="uploadForm" class="upload-form">
+      <input type="text" name="name" placeholder="File Name" required>
+      <input type="text" name="category" placeholder="Category" required>
+      <input type="text" name="country" placeholder="Country" required>
+      <input type="text" name="price" placeholder="Price ₹" required>
+      <input type="text" name="payment_id" placeholder="Razorpay Payment ID" required>
+      <textarea name="description" placeholder="Description" required></textarea>
+      <input type="file" name="file" accept=".csv,.xlsx" required>
+      <button type="submit">Upload File</button>
+    </form>
+
+    <div class="file-cards" id="fileList"></div>
+  </div>
+
+  <script>
+    const loginBox = document.getElementById('loginBox');
+    const adminPanel = document.getElementById('adminPanel');
+    const form = document.getElementById("uploadForm");
+    const fileList = document.getElementById("fileList");
+    let filesData = [];
+
+    function validateLogin() {
+      const user = document.getElementById('adminID').value.trim();
+      const pass = document.getElementById('adminPassword').value.trim();
+
+      fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          admin_id: user,
+          admin_password: pass
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          localStorage.setItem("isLoggedIn", "true");
+          loginBox.classList.add("hidden");
+          adminPanel.classList.remove("hidden");
+          loadFilesFromServer();
+        } else {
+          alert("❌ " + (data.message || "Invalid credentials"));
+        }
+      })
+      .catch(() => {
+        alert("❌ Failed to login. Server error.");
+      });
+    }
+
+    function logout() {
+      localStorage.removeItem("isLoggedIn");
+      loginBox.classList.remove("hidden");
+      adminPanel.classList.add("hidden");
+    }
+
+    function checkLoginState() {
+      if (localStorage.getItem("isLoggedIn") === "true") {
+        loginBox.classList.add("hidden");
+        adminPanel.classList.remove("hidden");
+        loadFilesFromServer();
+      }
+    }
+
+    form?.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      fetch('/api/files', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(() => {
+        alert("✅ File uploaded successfully!");
+        form.reset();
+        loadFilesFromServer();
+      });
+    });
+
+    function loadFilesFromServer() {
+      fetch('/api/files')
+        .then(res => res.json())
+        .then(data => {
+          filesData = data;
+          renderFiles();
+        });
+    }
+
+    function renderFiles() {
+      fileList.innerHTML = '';
+      filesData.forEach((file) => {
+        const div = document.createElement('div');
+        div.classList.add('file-card');
+        div.innerHTML = `
+          <h3>${file.name}</h3>
+          <p>📂 ${file.category} | 🌍 ${file.country}</p>
+          <p>💰 ₹${file.price}</p>
+          <p>📄 ${file.filename}</p>
+          <p>📝 ${file.description}</p>
+          <a href="${file.filepath}" target="_blank">
+            <button class="download-btn">Download</button>
+          </a>
+          <button class="edit-btn" onclick="editFile('${file.filename}')">Edit</button>
+          <button class="delete-btn" onclick="deleteFile('${file.filename}')">Delete</button>
+        `;
+        fileList.appendChild(div);
+      });
+    }
+
+    function deleteFile(filename) {
+      if (confirm("Are you sure you want to delete this file?")) {
+        fetch(`/api/files/delete/${filename}`, {
+          method: "DELETE"
+        })
+        .then(res => res.json())
+        .then(() => {
+          loadFilesFromServer();
+        });
+      }
+    }
+
+    function editFile(filename) {
+      const file = filesData.find(f => f.filename === filename);
+      if (!file) return;
+
+      const updatedName = prompt("Edit Name", file.name);
+      const updatedCategory = prompt("Edit Category", file.category);
+      const updatedCountry = prompt("Edit Country", file.country);
+      const updatedPrice = prompt("Edit Price", file.price);
+      const updatedPaymentId = prompt("Edit Payment ID", file.payment_id);
+      const updatedDescription = prompt("Edit Description", file.description);
+
+      fetch(`/api/files/edit/${filename}`, {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: updatedName,
+          category: updatedCategory,
+          country: updatedCountry,
+          price: updatedPrice,
+          payment_id: updatedPaymentId,
+          description: updatedDescription
+        })
+      })
+      .then(res => res.json())
+      .then(() => {
+        loadFilesFromServer();
+      });
+    }
+
+    // On page load
+    window.onload = checkLoginState;
+  </script>
+</body>
+</html>

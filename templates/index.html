@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🔶LeadsHub</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #4e00c2, #8f00ff);
+      color: #fff;
+    }
+
+    header {
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .admin-btn {
+      background: orange;
+      color: white;
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 900px;
+      margin: 0 auto 2rem;
+    }
+
+    .badges {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+    }
+
+    .section {
+      background: #f5f7fa;
+      color: #333;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .file-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      margin-top: 2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .file-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 1rem;
+      text-align: left;
+      color: #000;
+    }
+
+    .card h3 {
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      word-wrap: break-word;
+      overflow: hidden;
+      max-height: 80px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #ccc transparent;
+    }
+
+    .card p::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .card p::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 10px;
+    }
+
+    .price {
+      color: #4e00c2;
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+
+    .card button {
+      background: #4e00c2;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .donation-section {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .donation-section h2 {
+      margin-bottom: 1rem;
+    }
+
+    .stats {
+      background: #fff;
+      color: #222;
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      padding: 2rem;
+      margin-top: 3rem;
+      border-top: 1px solid #ddd;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .stats .title {
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .stats .count {
+      font-size: 1.5rem;
+      color: #4e00c2;
+      font-weight: 600;
+    }
+
+    .footer {
+      background: #1c1c1c;
+      padding: 2rem;
+      color: #ccc;
+      text-align: center;
+    }
+
+    .footer-links {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .filter-container {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .filter-container select {
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">🔶 LeadsHub</div>
+    <button class="admin-btn" onclick="location.href='/admin'">Admin Login</button>
+  </header>
+
+  
+
+  <section class="hero">
+    <h1>LeadsHub</h1>
+    <p>Access high-quality, verified lead databases with preview options and secure payment processing</p>
+    <div class="badges">
+      <div class="badge">✅ Secure Payments</div>
+      <div class="badge">⚡ Instant Download</div>
+      <div class="badge">⭐ Premium Quality</div>
+      <form action="/your-donation-endpoint" method="POST">
+      <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Qr3zZC1F31iIyM" async></script>
+    </form>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Available Files</h2>
+    <p>Preview before you buy • Secure payment • Instant download</p>
+    
+
+    <div class="filter-container">
+      <label for="countryFilter">🌍 Filter by Country:</label>
+      <select id="countryFilter" onchange="renderFiles()">
+        <option value="All">All Countries</option>
+      </select>
+    </div>
+
+    <div class="file-container">
+      <div class="file-cards" id="file-cards"></div>
+    </div>
+  </section>
+
+  <div class="donation-section">
+    <h2>Support Us with a Donation</h2>
+    <p>If you appreciate our work, consider making a donation!</p>
+    <form action="/your-donation-endpoint" method="POST">
+      <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Qr3zZC1F31iIyM" async></script>
+    </form>
+  </div>
+
+  <div class="stats">
+    <div>
+      <div class="title">Downloads</div>
+      <div class="count" id="downloadsCount">0</div>
+    </div>
+    <div>
+      <div class="title">Premium Files</div>
+      <div class="count" id="premiumCount">0</div>
+    </div>
+    <div>
+      <div class="title">Support</div>
+      <div class="count">24x7</div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div>© 2025 LeadsHub. All rights reserved. Last updated: 7/11/2025</div>
+    <div class="footer-links">
+      <a href="/about_us">About Us</a>
+      <a href="/PrivacyPolicy">Privacy Policy</a>
+      <a href="/contactus">Contact Us</a>
+      <a href="/TermsofService">Terms of Service</a>
+      <a href="/FAQ">FAQ</a>
+    </div>
+  </footer>
+
+  <script>
+    let filesData = [];
+
+    function loadFiles() {
+      fetch('/api/files')
+        .then(res => res.json())
+        .then(files => {
+          filesData = files;
+          renderCountryFilter();
+          renderFiles();
+        })
+        .catch(err => {
+          console.error("Failed to load files:", err);
+        });
+    }
+
+    function renderCountryFilter() {
+      const dropdown = document.getElementById("countryFilter");
+      const countries = [...new Set(filesData.map(file => file.country))];
+      dropdown.innerHTML = `<option value="All">All Countries</option>`;
+      countries.forEach(country => {
+        dropdown.innerHTML += `<option value="${country}">${country}</option>`;
+      });
+    }
+
+    function renderFiles() {
+      const container = document.querySelector('#file-cards');
+      const premiumCount = document.querySelector('#premiumCount');
+      const downloadsCount = document.querySelector('#downloadsCount');
+      const selectedCountry = document.getElementById("countryFilter").value;
+
+      container.innerHTML = '';
+      let totalDownloads = 0;
+
+      const filteredFiles = filesData.filter(f => selectedCountry === "All" || f.country === selectedCountry);
+      premiumCount.textContent = filteredFiles.length;
+
+      filteredFiles.forEach(file => {
+        totalDownloads += file.downloads || 0;
+
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+          <h3>${file.name}</h3>
+          <p>📂 ${file.category}</p>
+          <p>🌍 ${file.country}</p>
+          <p>📝 ${file.description}</p>
+          <p class="price">₹${file.price}</p>
+          <button class="download-btn" id="download-${file.filename}" onclick="downloadFile('${file.filename}')">Download</button>
+        `;
+        container.appendChild(div);
+      });
+
+      downloadsCount.textContent = totalDownloads;
+    }
+
+    function downloadFile(filename) {
+      // Increment download count
+      fetch(`/api/increment-download/${filename}`, {
+        method: 'POST'
+      })
+      .then(res => res.json())
+      .then(() => {
+        // Trigger file download
+        window.location.href = `/uploads/${filename}`;
+      })
+      .catch(err => {
+        console.error("Error incrementing download count:", err);
+        alert("Failed to update download count.");
+      });
+    }
+
+    // Check for payment success on page load
+    window.onload = function() {
+      loadFiles();
+    };
+  </script>
+
+</body>
+</html>
+

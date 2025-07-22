@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FAQ - LeadsHub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(to right, #4e00c2, #8f00ff);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .faq-title {
+      font-size: 1.8rem;
+      text-align: center;
+      color: #4e00c2;
+      margin-bottom: 1.5rem;
+    }
+
+    .faq-item {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      background: #f0f0f0;
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .faq-answer {
+      padding: 1rem;
+      display: none;
+      line-height: 1.6;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    .faq-item.active .faq-question {
+      background: #4e00c2;
+      color: white;
+    }
+
+    .footer {
+      background: #1c1c1c;
+      padding: 2rem;
+      color: #ccc;
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    a.button {
+      display: inline-block;
+      background: #4e00c2;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Frequently Asked Questions</h1>
+  </header>
+
+  <div class="container">
+    <h2 class="faq-title">Your Questions Answered</h2>
+
+    <div class="faq-item">
+      <div class="faq-question">What is LeadsHub?</div>
+      <div class="faq-answer">
+        LeadsHub is a platform that offers high-quality, verified lead databases for businesses to grow their outreach and customer base efficiently.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How do I purchase and download leads?</div>
+      <div class="faq-answer">
+        Simply browse the available files on our homepage, preview the data, complete the payment securely via Razorpay, and download the file instantly.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Are the leads verified?</div>
+      <div class="faq-answer">
+        Yes, all our lead files are manually verified and curated to ensure accuracy and relevance for your business needs.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Can I get a refund?</div>
+      <div class="faq-answer">
+        Due to the nature of digital products, all sales are final. However, if there's any issue with the file, you can contact our support team and we’ll be happy to assist.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How do I contact support?</div>
+      <div class="faq-answer">
+        You can reach our support team via the <strong>Contact Us</strong> page or email us at <strong>support@leadshub.com</strong>. We’re available 24/7 to help you.
+      </div>
+    </div>
+
+    <div style="text-align: center;">
+      <a href="/" class="button">← Back to Home</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div>© 2025 LeadsHub. All rights reserved.</div>
+  </footer>
+
+  <script>
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      question.addEventListener('click', () => {
+        item.classList.toggle('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
